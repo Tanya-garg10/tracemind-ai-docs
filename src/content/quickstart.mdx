@@ -1,47 +1,75 @@
 ---
 title: Quickstart
-description: Guide a new reader through one useful workflow and show them how to verify it.
+description: Get started with TraceMind AI in minutes using this quick start guide.
 ---
 
-A strong quickstart produces one meaningful result. Replace the placeholders
-below with the shortest supported path for your product.
+Get started with TraceMind AI in minutes using this quick start guide.
 
-## Before you begin
+## Prerequisites
 
-List only the requirements needed for this workflow:
+- Node.js 18+ 
+- npm or bun package manager
+- (Optional) Google Gemini API Key for AI-powered features
 
-- An account or credential, when required
-- A supported runtime, device, browser, or operating system
-- Permission to create or change the resource used in the example
+## Installation
 
-<Steps>
-  <Step title="Install the required tool">
-    Give readers one recommended installation command.
+1. **Clone the repository**
+```bash
+git clone https://github.com/Tanya-garg10/TraceMind-AI-Autonomous-API-Failure-Detection-Root-Cause-Analysis.git
+cd TraceMind-AI-Autonomous-API-Failure-Detection-Root-Cause-Analysis
+```
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Add the minimum configuration">
-    Include only the values needed for the first successful run.
+2. **Install dependencies**
+```bash
+npm install
+```
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Complete the first task">
-    Use a realistic example that produces an observable result.
+3. **Set up environment variables**
+```bash
+cp .env.example .env
+```
 
-    ```bash
-    your-cli start
-    ```
-  </Step>
-  <Step title="Verify the result">
-    State exactly what the reader should see and how to recover when it does not appear.
-  </Step>
-</Steps>
+Edit `.env` and add your Gemini API Key (optional - falls back to mock data):
+```
+GEMINI_API_KEY=your_gemini_api_key_here
+APP_URL=http://localhost:3000
+```
 
-## Choose the next task
+## Running the Application
 
-Link to the guide that naturally follows this result. Avoid ending the reader’s
-journey with a generic list of every feature.
+### Development Mode
+```bash
+npm run dev
+```
+
+The application will be available at http://localhost:3000
+
+### Production Build
+```bash
+npm run build
+npm start
+```
+
+## First Steps
+
+1. **Launch the application** - Navigate to http://localhost:3000
+2. **View the dashboard** - See system health, active incidents, and key metrics
+3. **Trigger a demo incident** - Use the "Simulate Incident" button to see the system in action
+4. **Run AI investigation** - Click "Investigate" to trigger autonomous root cause analysis
+5. **Explore incident replay** - Navigate to "Incident Replay" to reproduce incident conditions
+6. **Generate resolution runbook** - Create detailed remediation procedures
+
+## Demo Mode
+
+TraceMind AI includes a demo mode with simulated incidents. Use the demo controls to:
+- **Trigger simulated API failures** - See how the system detects and analyzes incidents
+- **Reset system state** - Return to healthy baseline for testing
+- **Test AI features** - Explore investigation, replay, and runbook generation
+
+## Next Steps
+
+- Read the [Incident Detection](incident-detection) guide to understand how incidents are detected
+- Learn about [Root Cause Analysis](root-cause-analysis) to understand AI-powered diagnostics
+- Explore [Incident Replay](incident-replay) to reproduce and verify incidents
+- Review [Resolution Runbook](resolution-runbook) for automated remediation procedures
+- Check the [API Reference](api-reference) for integration details

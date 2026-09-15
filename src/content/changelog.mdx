@@ -3,13 +3,91 @@ title: Changelog
 description: Record product changes that alter how readers use the documented experience.
 ---
 
-## v0.1.0
+## [Unreleased]
 
-The first published version of this documentation.
+### Added
+- **Incident Replay** - New feature to reproduce incident conditions in a controlled environment
+  - Replay incident requests with original payloads
+  - Verify root cause hypotheses through simulation
+  - Detailed replay results with confidence scoring
+  - Expandable sections for request details, behavior analysis, and error logs
+  - API endpoint: `POST /api/incidents/:id/replay`
 
-- A task-focused introduction and quickstart
-- Browsable API documentation generated from `openapi.yaml`
-- Agent-readable discovery files and a read-only MCP endpoint
+- **Resolution Runbook** - New feature to generate automated remediation procedures
+  - Step-by-step resolution procedures with time estimates
+  - Code and configuration change suggestions
+  - Verification criteria for each step
+  - Comprehensive rollback plans with trigger conditions
+  - Risk assessment and mitigation strategies
+  - Export runbooks as Markdown for documentation
+  - API endpoint: `POST /api/incidents/:id/runbook`
 
-Replace this entry with changes your readers need to understand. Lead with the
-impact, then link to the guide or reference that explains the new behavior.
+- **New TypeScript Types**
+  - `IncidentReplayResult` - Replay execution results and findings
+  - `ResolutionRunbook` - Complete runbook structure
+  - `ResolutionStep` - Individual resolution procedure steps
+  - `VerificationCriteria` - Success verification metrics
+  - `RollbackPlan` - Rollback procedures and conditions
+  - `RiskAssessment` - Risk evaluation and mitigation
+
+- **New UI Components**
+  - `IncidentReplayView` - Interface for triggering and viewing incident replays
+  - `ResolutionRunbookView` - Interface for displaying and exporting resolution runbooks
+
+- **Sidebar Navigation Updates**
+  - Added "Incident Replay" tab with Play icon
+  - Added "Resolution Runbook" tab with BookOpen icon
+  - Both tabs marked as "NEW" features
+
+### Changed
+- Updated `apiClient` with new methods: `replayIncident()` and `generateRunbook()`
+- Enhanced `App.tsx` with runbook state management and navigation
+- Updated sidebar navigation to include new feature tabs
+
+### Technical Details
+- Backend endpoints added to `server.ts` for replay and runbook generation
+- Mock data added to `mockData.ts` for realistic replay and runbook examples
+- Type definitions added to `types.ts` for new data structures
+- API client methods added with fallback to mock data for offline testing
+
+## [1.0.0] - 2026-08-30
+
+### Added
+- Initial release of TraceMind AI
+- Real-time incident detection
+- AI-powered root cause analysis using Gemini AI
+- Parallel evidence investigation (logs, metrics, deployments)
+- Interactive dashboard with dark-themed UI
+- Log explorer with advanced filtering
+- Service health monitoring
+- Deployment tracking
+- Code fix recommendations
+- Demo mode with simulated incidents
+
+### Features
+- **Dashboard Overview** - System health, active incidents, key metrics
+- **Services View** - Microservice health status monitoring
+- **Incidents View** - Incident tracking and management
+- **AI Investigations** - Autonomous root cause analysis
+- **Log Explorer** - Advanced log filtering and search
+- **Metrics View** - Performance metrics visualization
+- **Deployments View** - Deployment history and correlation
+- **Incident Report** - AI-generated incident documentation
+- **Architecture View** - System architecture visualization
+
+### Tech Stack
+- Frontend: React 19, TypeScript, Tailwind CSS 4
+- Backend: Express.js, Node.js
+- Build Tool: Vite 6
+- AI Integration: Google Gemini AI (@google/genai)
+- Charts: Recharts
+- Icons: Lucide React
+- Animations: Motion
+
+## Versioning
+
+This project follows [Semantic Versioning](https://semver.org/).
+
+- **MAJOR** version for incompatible API changes
+- **MINOR** version for backwards-compatible functionality additions
+- **PATCH** version for backwards-compatible bug fixes

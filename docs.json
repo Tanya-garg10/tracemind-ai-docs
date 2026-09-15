@@ -26,43 +26,41 @@
       "tab": "Get started",
       "groups": [
         {
-          "group": "Get started",
+          "group": "Introduction",
           "pages": ["introduction", "quickstart"]
+        }
+      ]
+    },
+    {
+      "tab": "Core concepts",
+      "groups": [
+        {
+          "group": "Incident management",
+          "pages": ["incident-detection", "root-cause-analysis"]
+        }
+      ]
+    },
+    {
+      "tab": "Incident workflows",
+      "groups": [
+        {
+          "group": "Resolution",
+          "pages": ["incident-replay", "resolution-runbook"]
+        }
+      ]
+    },
+    {
+      "tab": "Reference",
+      "groups": [
+        {
+          "group": "API Reference",
+          "pages": ["api-reference"]
         },
         {
-          "group": "Design your docs",
-          "pages": ["components", "customization"]
+          "group": "Support",
+          "pages": ["troubleshooting", "changelog"]
         }
       ]
-    },
-    {
-      "tab": "Guides",
-      "groups": [
-        {
-          "group": "Work with Thally",
-          "pages": [
-            "guides/create-a-site",
-            "guides/work-with-the-cli",
-            "guides/connect-ai-tools"
-          ]
-        }
-      ]
-    },
-    {
-      "tab": "API Reference",
-      "groups": [
-        {
-          "group": "Overview",
-          "pages": ["api/introduction", "api/authentication"]
-        }
-      ],
-      "api": {
-        "source": "openapi.yaml"
-      }
-    },
-    {
-      "tab": "Changelog",
-      "href": "/changelog"
     }
   ]
 }

@@ -1,0 +1,118 @@
+---
+title: Incident Detection
+description: TraceMind AI provides real-time incident detection for API failures and service degradation.
+---
+
+# Incident Detection
+
+TraceMind AI provides real-time incident detection for API failures and service degradation.
+
+## How Incident Detection Works
+
+The system continuously monitors your microservices infrastructure to detect:
+
+- **Error rate spikes** - Sudden increases in HTTP 500/4xx errors
+- **Latency degradation** - P95/P99 latency exceeding thresholds
+- **Service health changes** - Microservice status transitions
+- **Connection pool exhaustion** - Database connection saturation
+- **Cascading failures** - Downstream service impact
+
+## Detection Mechanisms
+
+### 1. Error Rate Monitoring
+Tracks HTTP error rates across all endpoints and triggers alerts when:
+- Error rate exceeds 5% threshold
+- Sustained errors for > 5 minutes
+- Error budget burned > 5% in monitoring window
+
+### 2. Latency Monitoring
+Monitors response time percentiles and alerts when:
+- P95 latency exceeds 1s threshold
+- P99 latency exceeds 2s threshold
+- Average latency increases > 3x baseline
+
+### 3. Service Health Checks
+Continuous health monitoring of microservices:
+- HTTP endpoint availability
+- Database connectivity
+- External service dependencies
+- Resource utilization (CPU, memory, connections)
+
+### 4. Anomaly Detection
+AI-powered anomaly detection identifies:
+- Unusual traffic patterns
+- Abnormal error distributions
+- Unexpected metric correlations
+- Deployment-related regressions
+
+## Incident Severity Levels
+
+Incidents are classified by severity:
+
+- **CRITICAL** - System-wide outage, major customer impact
+- **HIGH** - Significant service degradation, partial outage
+- **MEDIUM** - Service performance issues, limited impact
+- **LOW** - Minor issues, minimal customer impact
+
+## Incident Lifecycle
+
+1. **Detection** - System identifies anomaly and creates incident
+2. **Investigation** - AI agent analyzes logs, metrics, deployments
+3. **Diagnosis** - Root cause identified with confidence score
+4. **Mitigation** - Resolution procedures executed
+5. **Resolution** - Incident resolved and system recovered
+
+## Configuration
+
+### Detection Thresholds
+
+Default thresholds can be configured in the system:
+
+```yaml
+detection:
+  error_rate_threshold: 5.0  # percentage
+  latency_p95_threshold: 1000  # milliseconds
+  latency_p99_threshold: 2000  # milliseconds
+  monitoring_window: 300  # seconds
+```
+
+### Service-Specific Rules
+
+Configure detection rules per service:
+
+```yaml
+services:
+  payment-service:
+    error_rate_threshold: 1.0
+    latency_p95_threshold: 500
+    critical: true
+```
+
+## Integration
+
+### Manual Incident Creation
+```bash
+POST /api/demo/trigger-incident
+```
+
+### Incident Status API
+```bash
+GET /api/incidents
+```
+
+### Health Check Endpoint
+```bash
+GET /api/health
+```
+
+## Best Practices
+
+1. **Set appropriate thresholds** - Balance sensitivity vs. alert fatigue
+2. **Monitor error budgets** - Track SLO compliance over time
+3. **Correlate with deployments** - Link incidents to release activity
+4. **Review false positives** - Refine detection rules based on actual incidents
+5. **Use incident replay** - Verify root causes before implementing fixes
+
+## Troubleshooting
+
+For issues with incident detection, see the [Troubleshooting](troubleshooting) guide.

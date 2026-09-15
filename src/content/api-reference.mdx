@@ -1,0 +1,448 @@
+---
+title: API Reference
+description: TraceMind AI provides RESTful API endpoints for incident management, AI operations, and system control.
+---
+
+# API Reference
+
+TraceMind AI provides RESTful API endpoints for incident management, AI operations, and system control.
+
+## Base URL
+
+```
+http://localhost:3000/api
+```
+
+## Authentication
+
+Currently, the API does not require authentication. In production deployments, implement appropriate authentication mechanisms.
+
+## Endpoints
+
+### Health Check
+
+#### GET /health
+
+Check if the API server is running.
+
+**Response:**
+```json
+{
+  "status": "ok",
+  "timestamp": "2026-09-15T14:30:00Z"
+}
+```
+
+### Services
+
+#### GET /services
+
+Get all microservices and their health status.
+
+**Response:**
+```json
+{
+  "services": [
+    {
+      "id": "payment-service",
+      "name": "Payment API",
+      "endpoint": "/api/payments",
+      "status": "critical",
+      "healthScore": 42,
+      "uptime": "99.12%",
+      "lastError": "HTTP 500 spike to 18.7%",
+      "dependencies": ["postgres-db", "redis-cache"]
+    }
+  ],
+  "totalCount": 5,
+  "healthyCount": 3,
+  "criticalCount": 2
+}
+```
+
+### Incidents
+
+#### GET /incidents
+
+Get all incidents.
+
+**Response:**
+```json
+{
+  "incidents": [
+    {
+      "id": "inc-9482",
+      "title": "Payment API HTTP 500 Spike",
+      "severity": "CRITICAL",
+      "status": "active",
+      "detectedAt": "2026-08-30T14:25:00Z",
+      "affectedService": "payment-service",
+      "errorRate": 18.7,
+      "description": "Error rate surged from 0.04% to 18.7%..."
+    }
+  ],
+  "activeIncidentCount": 1
+}
+```
+
+#### POST /incidents/:id/investigate
+
+Trigger AI investigation for a specific incident.
+
+**Parameters:**
+- `id` (path) - Incident ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "report": {
+    "incidentId": "inc-9482",
+    "rootCause": "Database Connection Pool Exhaustion",
+    "confidence": 93,
+    "confidenceTier": "HIGH CONFIDENCE",
+    "severity": "CRITICAL",
+    "evidence": [...],
+    "recommendations": [...]
+  },
+  "steps": [...]
+}
+```
+
+#### POST /incidents/:id/replay
+
+Trigger incident replay to reproduce conditions.
+
+**Parameters:**
+- `id` (path) - Incident ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "replay": {
+    "incidentId": "inc-9482",
+    "replayId": "replay-1234567890",
+    "timestamp": "2026-09-15T14:30:00Z",
+    "status": "failed",
+    "replayedRequests": 50,
+    "successfulRequests": 0,
+    "failedRequests": 50,
+    "averageLatencyMs": 28450,
+    "errorRate": 100,
+    "findings": [...],
+    "reproducedRootCause": true,
+    "confidence": 98,
+    "details": {...}
+  }
+}
+```
+
+#### POST /incidents/:id/runbook
+
+Generate resolution runbook for an incident.
+
+**Parameters:**
+- `id` (path) - Incident ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "runbook": {
+    "incidentId": "inc-9482",
+    "runbookId": "runbook-1234567890",
+    "generatedAt": "2026-09-15T14:30:00Z",
+    "title": "Database Connection Pool Exhaustion - Resolution Runbook",
+    "severity": "CRITICAL",
+    "rootCause": "Database Connection Pool Exhaustion",
+    "estimatedResolutionTime": "15-30 minutes",
+    "steps": [...],
+    "verificationCriteria": [...],
+    "rollbackPlan": {...},
+    "prerequisites": [...],
+    "riskAssessment": {...}
+  }
+}
+```
+
+### Logs
+
+#### GET /logs
+
+Get logs with optional filtering.
+
+**Query Parameters:**
+- `service` (optional) - Filter by service name
+- `status` (optional) - Filter by status (error, warning, info)
+- `severity` (optional) - Filter by severity level
+- `category` (optional) - Filter by category
+- `search` (optional) - Search term in log message
+
+**Response:**
+```json
+{
+  "logs": [
+    {
+      "id": "log-001",
+      "timestamp": "2026-08-30T14:25:12Z",
+      "level": "ERROR",
+      "service": "payment-service",
+      "message": "HikariPool-1 - Connection is not available...",
+      "category": "database",
+      "metadata": {...}
+    }
+  ],
+  "totalCount": 150
+}
+```
+
+### Metrics
+
+#### GET /metrics
+
+Get metrics data series.
+
+**Response:**
+```json
+{
+  "series": [
+    {
+      "timestamp": "2026-08-30T14:25:00Z",
+      "service": "payment-service",
+      "errorRate": 18.7,
+      "latencyMs": 2840,
+      "p95LatencyMs": 5200,
+      "p99LatencyMs": 8900,
+      "dbPoolUtilization": 100,
+      "status5xx": 2340
+    }
+  ],
+  "summary": {
+    "currentErrorRate": 18.7,
+    "avgLatencyMs": 2840,
+    "totalRequests": 12482,
+    "dbPoolSaturation": 100
+  }
+}
+```
+
+### Deployments
+
+#### GET /deployments
+
+Get deployment history.
+
+**Response:**
+```json
+{
+  "deployments": [
+    {
+      "id": "deploy-001",
+      "service": "payment-service",
+      "version": "v2.4.1",
+      "timestamp": "2026-08-30T14:21:00Z",
+      "status": "deployed",
+      "changes": ["Added synchronous ledger audit writes"],
+      "deployedBy": "ci-cd-bot"
+    }
+  ],
+  "latest": {...}
+}
+```
+
+### AI Operations
+
+#### POST /ai/analyze
+
+Direct AI analysis endpoint.
+
+**Request Body:**
+```json
+{
+  "incident": {...},
+  "logs": [...],
+  "metrics": [...],
+  "deployment": {...}
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "analysis": {
+    "rootCause": "...",
+    "confidence": 93,
+    "evidence": [...],
+    "recommendations": [...]
+  }
+}
+```
+
+#### POST /ai/recommend-fix
+
+Generate code fix patch.
+
+**Request Body:**
+```json
+{
+  "recommendationId": "rec-2",
+  "actionType": "config_change",
+  "serviceName": "payment-service"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "patch": {
+    "filename": "config/database.yaml",
+    "language": "yaml",
+    "codeBefore": "...",
+    "codeAfter": "...",
+    "explanation": "..."
+  }
+}
+```
+
+### Demo Controls
+
+#### POST /demo/trigger-incident
+
+Simulate an incident for testing.
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Incident simulated",
+  "incident": {...}
+}
+```
+
+#### POST /demo/reset-incident
+
+Reset system to healthy state.
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "System reset to operational"
+}
+```
+
+## Error Responses
+
+All endpoints may return error responses:
+
+```json
+{
+  "success": false,
+  "error": "Error message description"
+}
+```
+
+### Common HTTP Status Codes
+
+- `200 OK` - Request successful
+- `400 Bad Request` - Invalid request parameters
+- `404 Not Found` - Resource not found
+- `500 Internal Server Error` - Server error
+
+## Data Types
+
+### Incident
+```typescript
+interface Incident {
+  id: string;
+  title: string;
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+  status: 'active' | 'investigating' | 'resolved';
+  detectedAt: string;
+  affectedService: string;
+  errorRate: number;
+  description: string;
+}
+```
+
+### AIInvestigationReport
+```typescript
+interface AIInvestigationReport {
+  incidentId: string;
+  rootCause: string;
+  confidence: number;
+  confidenceTier: 'HIGH CONFIDENCE' | 'MEDIUM CONFIDENCE' | 'LOW CONFIDENCE';
+  severity: IncidentSeverity;
+  evidence: string[];
+  recommendations: RecommendedFixAction[];
+  generatedAt: string;
+}
+```
+
+### IncidentReplayResult
+```typescript
+interface IncidentReplayResult {
+  incidentId: string;
+  replayId: string;
+  timestamp: string;
+  status: 'success' | 'failed' | 'partial';
+  replayedRequests: number;
+  successfulRequests: number;
+  failedRequests: number;
+  averageLatencyMs: number;
+  errorRate: number;
+  findings: string[];
+  reproducedRootCause: boolean;
+  confidence: number;
+  details: {...};
+}
+```
+
+### ResolutionRunbook
+```typescript
+interface ResolutionRunbook {
+  incidentId: string;
+  runbookId: string;
+  generatedAt: string;
+  title: string;
+  severity: IncidentSeverity;
+  rootCause: string;
+  estimatedResolutionTime: string;
+  steps: ResolutionStep[];
+  verificationCriteria: VerificationCriteria[];
+  rollbackPlan: RollbackPlan;
+  prerequisites: string[];
+  riskAssessment: RiskAssessment;
+}
+```
+
+## SDK / Client Library
+
+A TypeScript client library is available in the application:
+
+```typescript
+import { apiClient } from './services/apiClient';
+
+// Get incidents
+const incidents = await apiClient.getIncidents();
+
+// Run investigation
+const report = await apiClient.runInvestigation(incidentId);
+
+// Replay incident
+const replay = await apiClient.replayIncident(incidentId);
+
+// Generate runbook
+const runbook = await apiClient.generateRunbook(incidentId);
+```
+
+## Webhooks
+
+Webhooks are not currently implemented. This feature can be added for production deployments to notify external systems of incident events.
+
+## Versioning
+
+The API is currently at version 1.0.0. Future versions will include version prefixes in the URL path (e.g., `/api/v2/...`).

@@ -1,0 +1,153 @@
+---
+title: Incident Replay
+description: Incident Replay allows you to reproduce incident conditions in a controlled environment to verify root causes and test potential fixes.
+---
+
+# Incident Replay
+
+Incident Replay allows you to reproduce incident conditions in a controlled environment to verify root causes and test potential fixes.
+
+## What is Incident Replay?
+
+Incident Replay simulates the exact conditions that caused an incident by:
+- Replaying the original request payload
+- Reproducing the error conditions
+- Measuring the response behavior
+- Verifying the root cause hypothesis
+
+## Use Cases
+
+- **Root Cause Verification** - Confirm the identified root cause is accurate
+- **Fix Testing** - Validate proposed fixes before production deployment
+- **Impact Assessment** - Understand the scope and severity of the issue
+- **Regression Testing** - Ensure fixes don't introduce new issues
+
+## How Incident Replay Works
+
+### 1. Request Capture
+The system captures:
+- Original HTTP method and endpoint
+- Request payload and headers
+- Timestamp and context
+- Service state at time of incident
+
+### 2. Environment Simulation
+Replay creates a controlled environment with:
+- Same service configuration
+- Database state snapshot
+- External service mocks
+- Traffic patterns
+
+### 3. Execution
+The replay engine:
+- Executes the captured request
+- Measures response time and status
+- Captures error logs and stack traces
+- Records resource utilization
+
+### 4. Analysis
+Results include:
+- Success/failure status
+- Reproduced root cause indicator
+- Confidence score
+- Detailed findings and observations
+
+## Using Incident Replay
+
+### Trigger Replay via UI
+
+1. Navigate to the **Incident Replay** tab in the sidebar
+2. Select the incident to replay
+3. Click **Replay Incident** button
+4. Wait for replay to complete (typically 2-3 seconds)
+5. Review the replay results
+
+### Trigger Replay via API
+
+```bash
+POST /api/incidents/:id/replay
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "replay": {
+    "incidentId": "inc-9482",
+    "replayId": "replay-1234567890",
+    "timestamp": "2026-09-15T14:30:00Z",
+    "status": "failed",
+    "replayedRequests": 50,
+    "successfulRequests": 0,
+    "failedRequests": 50,
+    "averageLatencyMs": 28450,
+    "errorRate": 100,
+    "findings": [
+      "Reproduced database connection pool exhaustion",
+      "All 50 replayed requests timed out after 30s",
+      "HikariCP pool saturated at 20/20 connections"
+    ],
+    "reproducedRootCause": true,
+    "confidence": 98,
+    "details": {
+      "endpoint": "POST /api/payments",
+      "method": "POST",
+      "samplePayload": {...},
+      "expectedBehavior": "...",
+      "actualBehavior": "...",
+      "errorLogs": [...]
+    }
+  }
+}
+```
+
+## Interpreting Replay Results
+
+### Status Indicators
+
+- **Success** - Request completed successfully (root cause not reproduced)
+- **Failed** - Request failed as expected (root cause reproduced)
+- **Partial** - Mixed results (partial reproduction)
+
+### Key Metrics
+
+- **Replayed Requests** - Number of requests executed in replay
+- **Successful Requests** - Requests that completed without error
+- **Failed Requests** - Requests that encountered errors
+- **Average Latency** - Mean response time across all requests
+- **Error Rate** - Percentage of requests that failed
+- **Confidence** - Likelihood that replay accurately reproduces incident
+
+### Findings Summary
+
+The replay provides detailed findings:
+- What was reproduced
+- Error patterns observed
+- Resource utilization
+- Comparison to original incident
+
+## Best Practices
+
+1. **Verify before fixing** - Always replay to confirm root cause
+2. **Test multiple scenarios** - Replay with different payloads if applicable
+3. **Document results** - Save replay results for audit trail
+4. **Compare with production** - Ensure replay environment matches production
+5. **Use for validation** - Re-run replay after applying fixes
+
+## Limitations
+
+- Replay uses simulated environment - may not perfectly match production
+- External dependencies may be mocked
+- Time-sensitive issues may not reproduce accurately
+- Stateful systems may require careful environment setup
+
+## Integration with Resolution Runbook
+
+After successful replay:
+- Generate a [Resolution Runbook](resolution-runbook) with validated steps
+- Use replay results to inform risk assessment
+- Include replay evidence in runbook documentation
+
+## Troubleshooting
+
+For issues with incident replay, see the [Troubleshooting](troubleshooting) guide.

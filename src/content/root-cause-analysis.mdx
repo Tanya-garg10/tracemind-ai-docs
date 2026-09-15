@@ -1,0 +1,155 @@
+---
+title: Root Cause Analysis
+description: TraceMind AI uses autonomous AI agents to perform comprehensive root cause analysis of API incidents.
+---
+
+# Root Cause Analysis
+
+TraceMind AI uses autonomous AI agents to perform comprehensive root cause analysis of API incidents.
+
+## AI-Powered Investigation Engine
+
+The investigation engine uses Google Gemini AI to analyze:
+
+- **Log patterns** - Recurring error signatures and stack traces
+- **Metrics correlations** - Latency spikes, error surges, resource saturation
+- **Deployment history** - Recent releases and configuration changes
+- **Service dependencies** - Downstream and upstream service impact
+
+## Investigation Workflow
+
+### 1. Parallel Analysis Workers
+
+Three independent analysis pipelines run simultaneously:
+
+#### Log Analyzer
+- Groups recurring error patterns
+- Identifies stack trace signatures
+- Extracts error frequency statistics
+- Correlates with service endpoints
+
+#### Metrics Analyzer
+- Detects latency anomalies (P50, P95, P99)
+- Identifies error rate surges
+- Measures resource saturation (CPU, memory, connections)
+- Correlates with traffic patterns
+
+#### Deployment Analyzer
+- Reviews recent releases
+- Identifies configuration changes
+- Correlates deployment timing with incident onset
+- Flags risky code changes
+
+### 2. Evidence Correlation Engine
+
+Builds a causal chain linking:
+- Deployment events → Metric changes → Log errors → Customer impact
+
+### 3. Gemini Reasoning Core
+
+Uses AI reasoning to:
+- Synthesize evidence from all sources
+- Calculate confidence scores
+- Generate root cause hypotheses
+- Provide explainable rationale
+
+## Confidence Scoring
+
+Root cause analysis includes confidence assessment:
+
+- **HIGH CONFIDENCE** (90-100%) - Strong evidence, clear causal chain
+- **MEDIUM CONFIDENCE** (70-89%) - Good evidence, some ambiguity
+- **LOW CONFIDENCE** (less than 70%) - Limited evidence, multiple hypotheses
+
+## Output Format
+
+The investigation produces:
+
+### Root Cause Summary
+- Technical root cause title
+- Likely trigger mechanism
+- Confidence score and tier
+
+### Evidence Chain
+- 5-7 verified evidence points
+- Causal timeline with timestamps
+- Supporting metrics and logs
+
+### Five Whys Analysis
+- Step-by-step reasoning chain
+- Elimination of alternative hypotheses
+- Transparent decision logic
+
+### Recommended Actions
+- Prioritized remediation steps
+- Risk assessment for each action
+- Expected impact estimates
+- Code/configuration patches
+
+## Using the Investigation API
+
+### Trigger Investigation
+```bash
+POST /api/incidents/:id/investigate
+```
+
+### Direct AI Analysis
+```bash
+POST /api/ai/analyze
+Content-Type: application/json
+
+{
+  "incident": {...},
+  "logs": [...],
+  "metrics": [...],
+  "deployment": {...}
+}
+```
+
+### Generate Code Fix
+```bash
+POST /api/ai/recommend-fix
+Content-Type: application/json
+
+{
+  "recommendationId": "rec-2",
+  "actionType": "config_change",
+  "serviceName": "payment-service"
+}
+```
+
+## Example Investigation
+
+For the sample incident (Payment API HTTP 500 Spike):
+
+**Root Cause**: Database Connection Pool Exhaustion
+**Confidence**: 93% (HIGH CONFIDENCE)
+**Trigger**: Deployment v2.4.1 increased DB queries by 250% without expanding pool capacity
+
+**Evidence**:
+- Database timeout errors increased 11x
+- Connection pool reached 100% saturation (20/20 connections)
+- Failures began 4 minutes after v2.4.1 deployment
+- Unrelated APIs on replica databases remain healthy
+
+## Best Practices
+
+1. **Let investigation complete** - Allow all workers to finish for comprehensive analysis
+2. **Review evidence chain** - Verify causal links make technical sense
+3. **Check confidence score** - Higher confidence = more reliable diagnosis
+4. **Consider recommendations** - Prioritized actions based on risk and impact
+5. **Use incident replay** - Verify root cause before implementing fixes
+
+## Limitations
+
+- Analysis quality depends on available telemetry data
+- Complex distributed systems may have multiple contributing factors
+- External dependencies (third-party APIs) may limit investigation scope
+- AI reasoning may require human validation for critical incidents
+
+## Next Steps
+
+After root cause analysis:
+- Use [Incident Replay](incident-replay) to verify the diagnosis
+- Generate [Resolution Runbook](resolution-runbook) for remediation steps
+- Review [API Reference](api-reference) for integration options

@@ -178,11 +178,10 @@ export const siteConfig: SiteConfig = {
   ...templateSiteConfig,
   name: "TraceMind AI",
   description: "Autonomous API failure detection, root-cause analysis, incident replay, and resolution runbooks for modern engineering teams.",
-  repoUrl: "https://github.com/Tanya-garg10/tracemind-ai-docs",
+  repoUrl: "https://github.com/Tanya-garg10/TraceMind-AI-Autonomous-API-Failure-Detection-Root-Cause-Analysis",
   links: [
     { label: "Get started", href: "/quickstart" },
-    { label: "Support", href: "https://github.com/Tanya-garg10/tracemind-ai-docs/issues/new" },
-    { label: "GitHub", href: "https://github.com/Tanya-garg10/tracemind-ai-docs" },
+    { label: "GitHub", href: "https://github.com/Tanya-garg10/TraceMind-AI-Autonomous-API-Failure-Detection-Root-Cause-Analysis" },
     { label: "Changelog", href: "/changelog" },
   ],
 };

@@ -1,0 +1,202 @@
+---
+title: Troubleshooting
+description: Common issues and solutions for TraceMind AI.
+---
+
+# Troubleshooting
+
+Common issues and solutions for TraceMind AI.
+
+## Installation Issues
+
+### npm install fails
+
+**Problem**: `npm install` fails with dependency errors
+
+**Solutions**:
+- Ensure Node.js 18+ is installed: `node --version`
+- Clear npm cache: `npm cache clean --force`
+- Delete node_modules and package-lock.json, then reinstall:
+  ```bash
+  rm -rf node_modules package-lock.json
+  npm install
+  ```
+
+### PostCSS configuration errors
+
+**Problem**: PostCSS plugin not found errors during build
+
+**Solutions**:
+- Ensure `postcss.config.mjs` exists in project root
+- Verify autoprefixer is installed: `npm list autoprefixer`
+- Check that `@tailwindcss/vite` plugin is properly configured in `vite.config.ts`
+
+## Runtime Issues
+
+### Server won't start
+
+**Problem**: Server fails to start or crashes immediately
+
+**Solutions**:
+- Check port 3000 is not in use: `netstat -ano | findstr :3000`
+- Verify environment variables are set in `.env` file
+- Check server logs for error messages
+- Ensure all dependencies are installed: `npm install`
+
+### AI features not working
+
+**Problem**: AI investigation or code fix generation fails
+
+**Solutions**:
+- Verify `GEMINI_API_KEY` is set in `.env` file
+- Check API key is valid and has sufficient quota
+- Test API key with Gemini API directly
+- If API key is not available, the system falls back to mock data
+
+### Incident replay fails
+
+**Problem**: Incident replay returns errors or incomplete results
+
+**Solutions**:
+- Ensure incident exists in the system
+- Check backend logs for replay execution errors
+- Verify incident data is complete and valid
+- Try resetting the incident and running again
+
+### Runbook generation fails
+
+**Problem**: Resolution runbook generation fails or produces incomplete output
+
+**Solutions**:
+- Ensure incident has completed AI investigation
+- Verify root cause analysis is available
+- Check backend logs for generation errors
+- Try regenerating after investigation completes
+
+## UI Issues
+
+### Dashboard not updating
+
+**Problem**: Dashboard shows stale or incorrect data
+
+**Solutions**:
+- Refresh the browser page
+- Check browser console for JavaScript errors
+- Verify backend API is responding: `curl http://localhost:3000/api/health`
+- Clear browser cache and reload
+
+### Sidebar navigation not working
+
+**Problem**: Clicking sidebar items doesn't navigate
+
+**Solutions**:
+- Refresh the browser page
+- Check browser console for React errors
+- Verify all component files are present
+- Restart the development server
+
+### Incident Replay view not loading
+
+**Problem**: Incident Replay tab shows blank or error state
+
+**Solutions**:
+- Ensure an active incident exists in the system
+- Navigate to Incidents tab first to verify incident data
+- Check that `IncidentReplayView.tsx` component exists
+- Restart the development server
+
+### Resolution Runbook not displaying
+
+**Problem**: Resolution Runbook tab shows empty state
+
+**Solutions**:
+- Generate a runbook first via Incident Replay view
+- Verify runbook data is stored in application state
+- Check that `ResolutionRunbookView.tsx` component exists
+- Ensure runbook generation completed successfully
+
+## Performance Issues
+
+### Slow page load times
+
+**Problem**: Application takes long time to load
+
+**Solutions**:
+- Check system resources (CPU, memory)
+- Verify network connectivity
+- Reduce number of mock data entries if testing locally
+- Check browser console for performance warnings
+
+### High memory usage
+
+**Problem**: Application consumes excessive memory
+
+**Solutions**:
+- Close unused browser tabs
+- Restart the development server
+- Reduce mock data size for testing
+- Check for memory leaks in browser console
+
+## Data Issues
+
+### Mock data not loading
+
+**Problem**: Application shows empty states or missing data
+
+**Solutions**:
+- Verify `mockData.ts` file exists and is valid
+- Check that imports are correct in component files
+- Restart the development server
+- Clear browser local storage
+
+### Incident data inconsistent
+
+**Problem**: Incident details don't match across views
+
+**Solutions**:
+- Reset the incident using the demo controls
+- Restart the development server
+- Clear browser local storage
+- Verify data consistency in mock data file
+
+## API Issues
+
+### API endpoints returning 404
+
+**Problem**: API calls return 404 Not Found
+
+**Solutions**:
+- Verify server is running on correct port
+- Check API endpoint paths in code
+- Ensure Vite middleware is configured correctly
+- Check server logs for routing errors
+
+### API endpoints returning 500
+
+**Problem**: API calls return 500 Internal Server Error
+
+**Solutions**:
+- Check server logs for detailed error messages
+- Verify all required dependencies are installed
+- Check environment variables are properly set
+- Ensure data structures match expected types
+
+## Getting Help
+
+If you continue to experience issues:
+
+1. **Check the logs** - Both server and browser console
+2. **Verify prerequisites** - Node.js version, dependencies, environment
+3. **Review documentation** - Check relevant feature documentation
+4. **Check GitHub issues** - Look for similar reported issues
+5. **Create an issue** - Report the problem with details about your environment
+
+## Debug Mode
+
+Enable debug logging by setting:
+
+```bash
+DEBUG=true npm run dev
+```
+
+This will output detailed logging to help diagnose issues.

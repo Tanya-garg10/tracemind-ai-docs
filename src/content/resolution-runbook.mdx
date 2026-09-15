@@ -1,0 +1,174 @@
+---
+title: Resolution Runbook
+description: Resolution Runbook provides automated, step-by-step remediation procedures for resolving incidents.
+---
+
+# Resolution Runbook
+
+Resolution Runbook provides automated, step-by-step remediation procedures for resolving incidents.
+
+## What is a Resolution Runbook?
+
+A Resolution Runbook is a comprehensive guide that includes:
+- Prioritized resolution steps with time estimates
+- Code and configuration changes
+- Verification criteria for each step
+- Rollback procedures if issues occur
+- Risk assessment and mitigation strategies
+
+**Important**: TraceMind AI generates proposed remediation steps. The runbook provides recommendations that must be reviewed and executed by human operators. The system does not automatically execute remediation actions.
+
+## Runbook Components
+
+### 1. Resolution Steps
+
+Each step includes:
+- **Title** - Clear description of the action
+- **Description** - Detailed explanation of what to do
+- **Action Type** - immediate, intermediate, or long-term
+- **Estimated Time** - Time required to complete
+- **Complexity** - low, medium, or high
+- **Commands** - Shell commands to execute (if applicable)
+- **Code Changes** - Before/after code snippets (if applicable)
+- **Verification** - How to confirm the step worked
+- **Owner** - Team or person responsible
+- **Dependencies** - Other steps that must complete first
+
+### 2. Verification Criteria
+
+Metrics to verify successful resolution:
+- **Error Rate** - Target threshold (e.g., less than 0.1%)
+- **P95 Latency** - Target threshold (e.g., less than 200ms)
+- **DB Pool Utilization** - Target threshold (e.g., less than 80%)
+- **Manual Verification** - Human validation steps
+
+### 3. Rollback Plan
+
+If resolution causes issues:
+- **Trigger Conditions** - When to rollback
+- **Rollback Steps** - Step-by-step rollback procedure
+- **Estimated Rollback Time** - Time to revert
+- **Success Criteria** - How to confirm rollback worked
+
+### 4. Risk Assessment
+
+- **Overall Risk** - LOW, MEDIUM, or HIGH
+- **Impact Areas** - Services and systems affected
+- **Potential Side Effects** - Unintended consequences
+- **Mitigation Strategies** - How to minimize risk
+
+## Generating a Runbook
+
+### Via UI
+
+1. Navigate to **Incident Replay** tab
+2. Complete an incident replay
+3. Click **Generate Runbook** button
+4. Review the generated runbook
+5. Export as Markdown for documentation
+
+### Via API
+
+```bash
+POST /api/incidents/:id/runbook
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "runbook": {
+    "incidentId": "inc-9482",
+    "runbookId": "runbook-1234567890",
+    "generatedAt": "2026-09-15T14:30:00Z",
+    "title": "Database Connection Pool Exhaustion - Resolution Runbook",
+    "severity": "CRITICAL",
+    "rootCause": "Database Connection Pool Exhaustion",
+    "estimatedResolutionTime": "15-30 minutes",
+    "steps": [...],
+    "verificationCriteria": [...],
+    "rollbackPlan": {...},
+    "prerequisites": [...],
+    "riskAssessment": {...}
+  }
+}
+```
+
+## Example Runbook
+
+For the sample incident (Database Connection Pool Exhaustion):
+
+### Step 1: Immediate Rollback to v2.4.0
+- **Action Type**: immediate
+- **Estimated Time**: 5 minutes
+- **Complexity**: low
+- **Commands**:
+  ```bash
+  kubectl rollout undo deployment/payment-service
+  kubectl get pods -l app=payment-service -w
+  ```
+- **Verification**: Verify pods are running v2.4.0 and error rate drops below 0.1%
+
+### Step 2: Increase Database Connection Pool Size
+- **Action Type**: immediate
+- **Estimated Time**: 10 minutes
+- **Complexity**: low
+- **Code Change**: Update `config/database.yaml` to increase pool from 20 to 60 connections
+
+### Step 3: Implement Asynchronous Audit Logging
+- **Action Type**: intermediate
+- **Estimated Time**: 2-4 hours
+- **Complexity**: high
+- **Code Change**: Refactor ledger audit writes to use message queue
+
+### Step 4: Add Circuit Breaker Pattern
+- **Action Type**: long_term
+- **Estimated Time**: 1-2 days
+- **Complexity**: high
+- **Description**: Implement circuit breaker around database acquisitions
+
+## Exporting Runbooks
+
+Runbooks can be exported as Markdown for:
+- Documentation in knowledge bases
+- Team handoff and training
+- Audit and compliance records
+- Integration with incident management systems
+
+Click the **Export Runbook** button to download as `.md` file.
+
+## Best Practices
+
+1. **Review prerequisites** - Ensure all requirements are met before starting
+2. **Follow step order** - Execute steps in the specified sequence
+3. **Verify each step** - Confirm success before proceeding to next step
+4. **Monitor during execution** - Watch system metrics for unexpected behavior
+5. **Be ready to rollback** - Have rollback plan ready if issues occur
+6. **Document changes** - Keep records of what was changed and why
+
+## Prerequisites
+
+Before executing a runbook, ensure:
+- Access to required systems and tools
+- Appropriate permissions for configuration changes
+- Backup of current configuration files
+- Monitoring and alerting systems operational
+- Team availability for execution
+
+## Risk Levels
+
+- **LOW** - Changes are safe, minimal impact, easy to rollback
+- **MEDIUM** - Moderate risk, some impact possible, rollback available
+- **HIGH** - Significant risk, major impact possible, careful execution required
+
+## Integration with Incident Replay
+
+Runbooks are generated based on:
+- Verified root cause from incident replay
+- Reproduced error conditions
+- System state analysis
+- Best practices for the specific issue type
+
+## Troubleshooting
+
+For issues with resolution runbooks, see the [Troubleshooting](troubleshooting) guide.

@@ -1,45 +1,55 @@
 ---
 title: Introduction
-description: Give readers a clear path from their first question to a result they can verify.
-mode: home
+description: TraceMind AI is an autonomous API failure detection and root cause analysis platform designed for modern microservices architectures.
 ---
 
-<Hero
-  title="Build documentation around the reader"
-  subtitle="Start with a useful first result, organize what follows, and publish every format from one reviewable source."
-  primaryLabel="Get started"
-  primaryHref="/quickstart"
-  secondaryLabel="Publish your docs"
-  secondaryHref="/guides/create-a-site"
-/>
+TraceMind AI is an autonomous API failure detection and root cause analysis platform designed for modern microservices architectures. It uses AI-powered parallel investigation to automatically detect, diagnose, and provide actionable remediation for API incidents.
 
-## Build the reader journey
+## What is TraceMind AI?
 
-Begin with the task that brings most readers to your documentation, then make
-the next useful step obvious.
+TraceMind AI is an intelligent SRE/DevOps assistant that:
 
-<CardGroup cols="2">
-  <Card title="Write your quickstart" icon="party-horn" href="/quickstart">
-    Turn prerequisites, setup, one realistic task, and verification into a short path.
-  </Card>
-  <Card title="Organize your navigation" icon="grid-round" href="/customization">
-    Group related tasks and references around how people use your product.
-  </Card>
-  <Card title="Document your API" icon="code-simple" href="/api">
-    Replace `openapi.yaml` to publish browsable endpoint docs with a live playground.
-  </Card>
-  <Card title="Learn the Thally workflow" icon="wrench" href="/guides/create-a-site">
-    Create, publish, and update sites from the Cloud dashboard, the CLI, or your AI tools.
-  </Card>
-</CardGroup>
+- **Detects API failures** in real-time across your microservices infrastructure
+- **Analyzes incidents** using parallel log, metric, and deployment investigation
+- **Identifies root causes** with high confidence using Gemini AI reasoning
+- **Generates resolution runbooks** with step-by-step remediation procedures
+- **Provides code fixes** through automated patch generation
 
-## Publish from one source
+## Key Capabilities
 
-Thally turns the same reviewed content into HTML, search, agent discovery files,
-Markdown mirrors, and a read-only MCP surface — so people and AI tools read the
-same, current answer. Add only the locales your readers need.
+### Real-time Incident Detection
+Automatically monitors API endpoints and service health to detect anomalies, error rate spikes, and latency degradation.
 
-<Note type="info" title="Start with the product, not the template">
-  Replace this page with the questions, terminology, and workflows your readers
-  already use. Keep `docs.json` focused on the path between those tasks.
-</Note>
+### AI-Powered Root Cause Analysis
+Leverages Google Gemini AI to analyze telemetry data and identify the technical root cause with confidence scoring.
+
+### Parallel Evidence Investigation
+Simultaneously investigates logs, metrics, and deployment events to build a comprehensive evidence chain.
+
+### Incident Replay
+Reproduces incident conditions in a controlled environment to verify root causes and test potential fixes.
+
+### Resolution Runbook Generation
+Creates detailed, actionable resolution procedures with verification criteria and rollback plans.
+
+## Architecture
+
+TraceMind AI consists of:
+
+- **Frontend**: React 19 with TypeScript and Tailwind CSS 4
+- **Backend**: Express.js server with Vite integration
+- **AI Engine**: Google Gemini AI (@google/genai) for intelligent analysis
+- **Data Store**: In-memory state with mock data for demonstration
+- **API Layer**: RESTful endpoints for incident management and AI operations
+
+## Use Cases
+
+- **SRE Teams**: Automate incident investigation and reduce MTTR (Mean Time To Resolution)
+- **DevOps Engineers**: Get actionable insights for deployment-related issues
+- **Platform Teams**: Monitor microservice health and detect cascading failures
+- **Development Teams**: Understand production issues through detailed analysis
+
+## Getting Help
+
+For detailed setup instructions, see the [Quickstart](quickstart) guide.
+For troubleshooting common issues, see the [Troubleshooting](troubleshooting) page.
